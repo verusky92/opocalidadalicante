@@ -2,14 +2,19 @@
 
 Plataforma de estudio para la bolsa de **Técnico Medio de Calidad (A2)**.
 
-## Publicación automática (GitHub Pages)
+## Publicación (GitHub Pages)
 
-En cada push a `main`/`master`, la Action `.github/workflows/deploy-pages.yml` construye y publica el sitio.
+Sitio en vivo: **https://verusky92.github.io/opocalidadalicante/**
 
-1. Crea el repo en GitHub y haz push
-2. **Settings → Pages → Build and deployment → Source: GitHub Actions**
-3. Tras el primer workflow en verde, la URL será:
-   `https://<usuario>.github.io/<nombre-del-repo>/`
+Ahora mismo se publica desde la rama `gh-pages` (build estático).
+
+Para autopublicar con GitHub Actions en cada push a `main`:
+
+1. Autoriza el scope `workflow` (`gh auth refresh -s workflow`)
+2. Sube `.github/workflows/deploy-pages.yml`
+3. En **Settings → Pages → Source** elige **GitHub Actions**
+
+Mientras tanto, tras cambiar código puedes republicar con build + push a `gh-pages`.
 
 El progreso de estudio sigue en `localStorage` del navegador (no se guarda en el servidor).
 
