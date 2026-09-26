@@ -1,0 +1,12 @@
+Calibre — versión lista para Windows (sin instalar Node)
+
+1. Descomprime esta carpeta donde quieras
+2. Doble clic en abrir.bat
+3. Se abrirá el navegador en http://127.0.0.1:8080/
+
+Para cerrar: cierra la ventana negra de PowerShell / consola.
+
+Notas:
+- No hace falta instalar Node.js ni npm
+- El progreso se guarda en el navegador de ese PC
+- Si Windows bloquea el .ps1: clic derecho → Propiedades → Desbloquear
