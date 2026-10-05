@@ -650,6 +650,50 @@ input {
   margin: 0.3rem 0;
 }
 
+.audit-details {
+  margin: 1rem 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #f3f7f9;
+}
+
+.audit-details summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--teal-deep);
+}
+
+.audit-list {
+  margin: 0.75rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.audit-list li + li {
+  margin-top: 0.65rem;
+}
+
+.updates-box {
+  margin: 1rem 0 1.25rem;
+  padding: 0.85rem 1rem;
+  border-left: 3px solid var(--teal);
+  background: #eef6f7;
+  border-radius: 0 12px 12px 0;
+}
+
+.updates-box ul {
+  margin: 0.4rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.muted-note {
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin-top: 1rem;
+}
+
 @media (max-width: 720px) {
   .hero-study,
   .card-grid.actions {

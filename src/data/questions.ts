@@ -14,7 +14,9 @@ import { TEMA_12_QUESTIONS } from './questions/tema-12'
 import { TEMA_13_QUESTIONS } from './questions/tema-13'
 import { TEMA_14_QUESTIONS } from './questions/tema-14'
 import { TEMA_15_QUESTIONS } from './questions/tema-15'
+import { UNIDAD_CALIDAD_QUESTIONS } from './questions/unidad-calidad-dipu'
 
+/** Banco del temario de examen (temas 1–15). */
 export const QUESTIONS: Question[] = [
   ...TEMA_01_QUESTIONS,
   ...TEMA_02_QUESTIONS,
@@ -33,12 +35,19 @@ export const QUESTIONS: Question[] = [
   ...TEMA_15_QUESTIONS,
 ]
 
+/** Material Unidad de Calidad Dipu (banco aparte; no entra en simulacros 1–15). */
+export { UNIDAD_CALIDAD_QUESTIONS }
+
+export function getUnidadCalidadQuestions(): Question[] {
+  return UNIDAD_CALIDAD_QUESTIONS
+}
+
 export function getQuestionsByTema(temaId: number): Question[] {
   return QUESTIONS.filter((q) => q.temaId === temaId)
 }
 
 export function getQuestionById(id: string): Question | undefined {
-  return QUESTIONS.find((q) => q.id === id)
+  return QUESTIONS.find((q) => q.id === id) ?? UNIDAD_CALIDAD_QUESTIONS.find((q) => q.id === id)
 }
 
 export function shuffle<T>(arr: T[]): T[] {

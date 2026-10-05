@@ -29,14 +29,16 @@ npm run dev
 
 ## Flujo de estudio
 
-1. **Temario** → elige un tema → lee el contenido → **Test completo** (32 preguntas) o repaso rápido (15)
-2. **Exámenes** → mezclas: oficial 50, medio 25, solo general, solo calidad, sprint, o práctica con feedback
-3. Inicio: repetición espaciada y cola de fallos
+1. **Temario** → elige un tema → lee el contenido → **Test completo** o repaso rápido (15)
+2. **Unidad Dipu** → material propio de Calidad (Diputación de Alicante), revisado 2026 + tests
+3. **Exámenes** → mezclas: oficial 50, medio 25, solo general, solo calidad, fallos, o práctica con feedback
+4. Inicio: repetición espaciada y cola de fallos
 
 ## Contenido
 
 - 15 temas con temario legible por secciones
-- **480 preguntas** (32 por tema)
+- **~484 preguntas** del temario Calibre (temas 1–15) + **40** del banco Unidad Dipu
+- Apartado **Unidad de Calidad Dipu** (contenido 2005/2008 actualizado normativamente)
 - Simulacros con penalización −1/3 y 1 min/pregunta
 - Casos para la 2ª parte
 - Progreso en `localStorage`

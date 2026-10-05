@@ -11,8 +11,17 @@ import {
   Trophy,
 } from 'lucide-react'
 import { Quiz } from './components/Quiz'
-import { CASES, QUESTIONS, getQuestionsByTema, pickExamQuestions, shuffle } from './data/questions'
+import {
+  CASES,
+  QUESTIONS,
+  getQuestionById,
+  getQuestionsByTema,
+  getUnidadCalidadQuestions,
+  pickExamQuestions,
+  shuffle,
+} from './data/questions'
 import { TEMAS } from './data/temas'
+import { UNIDAD_CALIDAD_AUDIT, UNIDAD_CALIDAD_UNITS } from './data/unidad-calidad-dipu'
 import { formatScoreFixed, passedExam, scoreOutOf10 } from './lib/scoring'
 import {
   accuracyForTema,
@@ -39,6 +48,7 @@ export default function App() {
   const [session, setSession] = useState<Session>({ kind: 'none' })
   const [caseId, setCaseId] = useState<string | null>(null)
   const [showGuide, setShowGuide] = useState(false)
+  const [unidadUnitId, setUnidadUnitId] = useState<string | null>(null)
 
   const persist = useCallback((updater: (s: AppState) => AppState) => {
     setState((prev) => {
@@ -119,9 +129,7 @@ export default function App() {
         .slice(0, 15)
         .map((q) => q.id)
     }
-    const qs = ids
-      .map((id) => QUESTIONS.find((q) => q.id === id)!)
-      .filter(Boolean)
+    const qs = ids.map((id) => getQuestionById(id)).filter((q): q is NonNullable<typeof q> => Boolean(q))
     setSession({
       kind: 'quiz',
       questions: qs,
@@ -132,14 +140,28 @@ export default function App() {
 
   const startWrong = () => {
     const qs = state.wrongQueue
-      .map((id) => QUESTIONS.find((q) => q.id === id)!)
-      .filter(Boolean)
+      .map((id) => getQuestionById(id))
+      .filter((q): q is NonNullable<typeof q> => Boolean(q))
     if (!qs.length) return
     setSession({
       kind: 'quiz',
       questions: shuffle(qs).slice(0, 20),
       title: 'Repaso de fallos',
       subtitle: `${qs.length} en cola`,
+    })
+  }
+
+  const startUnidadQuiz = (mode: 'full' | 'quick' = 'full') => {
+    const all = shuffle(getUnidadCalidadQuestions())
+    const qs = mode === 'quick' ? all.slice(0, Math.min(15, all.length)) : all
+    setSession({
+      kind: 'quiz',
+      questions: qs,
+      title: 'Test Unidad de Calidad (Dipu)',
+      subtitle:
+        mode === 'quick'
+          ? `Repaso rápido · ${qs.length} preguntas`
+          : 'Material Dipu Alicante actualizado · no entra en el simulacro 1–15',
     })
   }
 
@@ -261,6 +283,7 @@ export default function App() {
 
   const activeCase = CASES.find((c) => c.id === caseId)
   const activeTema = TEMAS.find((t) => t.id === temaId)
+  const activeUnidadUnit = UNIDAD_CALIDAD_UNITS.find((u) => u.id === unidadUnitId)
 
   return (
     <div className="app-shell">
@@ -285,6 +308,7 @@ export default function App() {
           [
             ['home', 'Inicio'],
             ['temas', 'Temario'],
+            ['unidad-dipu', 'Unidad Dipu'],
             ['simulacro', 'Exámenes'],
             ['casos', '2ª parte'],
             ['metodo', 'Método'],
@@ -293,11 +317,14 @@ export default function App() {
           <button
             key={id}
             type="button"
-            className={view === id || (view === 'tema-detail' && id === 'temas') ? 'nav-item active' : 'nav-item'}
+            className={
+              view === id || (view === 'tema-detail' && id === 'temas') ? 'nav-item active' : 'nav-item'
+            }
             onClick={() => {
               setView(id)
               setTemaId(null)
               setCaseId(null)
+              setUnidadUnitId(null)
             }}
           >
             {label}
@@ -331,6 +358,18 @@ export default function App() {
               <BookOpen size={22} />
               <strong>Práctica mezclada</strong>
               <span>25 preguntas de todos los temas</span>
+            </button>
+            <button
+              type="button"
+              className="action-card"
+              onClick={() => {
+                setView('unidad-dipu')
+                setUnidadUnitId(null)
+              }}
+            >
+              <GraduationCap size={22} />
+              <strong>Unidad Calidad Dipu</strong>
+              <span>Material propio Alicante · actualizado 2026</span>
             </button>
             <button type="button" className="action-card accent" onClick={() => startExam(50)}>
               <Timer size={22} />
@@ -482,6 +521,103 @@ export default function App() {
             </div>
           </article>
         </main>
+      )}
+
+      {view === 'unidad-dipu' && !unidadUnitId && (
+        <main className="main">
+          <section className="panel">
+            <h2>Unidad de Calidad — Diputación de Alicante</h2>
+            <p>
+              Contenido basado en los temarios de la Unidad/Sección de Calidad de la Dipu
+              (2005 y temas orientativos de la convocatoria 2008/2009),{' '}
+              <strong>revisado normativamente</strong> ({UNIDAD_CALIDAD_AUDIT.reviewedAt}).
+            </p>
+            <p className="flow-hint">{UNIDAD_CALIDAD_AUDIT.headline}</p>
+            <details className="audit-details">
+              <summary>Qué estaba desactualizado en los PDF originales</summary>
+              <ul className="audit-list">
+                {UNIDAD_CALIDAD_AUDIT.outdatedFound.map((item) => (
+                  <li key={item.original}>
+                    <strong>Original:</strong> {item.original}
+                    <br />
+                    <strong>Actual:</strong> {item.current}
+                  </li>
+                ))}
+              </ul>
+            </details>
+            <div className="row-actions" style={{ marginTop: '1rem' }}>
+              <button type="button" className="btn btn-primary" onClick={() => startUnidadQuiz('full')}>
+                Test completo ({getUnidadCalidadQuestions().length})
+              </button>
+              <button type="button" className="btn" onClick={() => startUnidadQuiz('quick')}>
+                Repaso rápido (15)
+              </button>
+            </div>
+          </section>
+          <div className="tema-list">
+            {UNIDAD_CALIDAD_UNITS.map((unit, i) => (
+              <button
+                key={unit.id}
+                type="button"
+                className="tema-row"
+                onClick={() => setUnidadUnitId(unit.id)}
+              >
+                <span className="pill especifica">Dipu</span>
+                <div>
+                  <strong>
+                    {i + 1}. {unit.title}
+                  </strong>
+                  <span>{unit.summary}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+          <p className="muted-note">
+            Este banco es de refuerzo con material propio Dipu; no se mezcla en los simulacros de
+            los 15 temas del temario Calibre.
+          </p>
+        </main>
+      )}
+
+      {view === 'unidad-dipu' && activeUnidadUnit && (
+          <main className="main">
+            <button
+              type="button"
+              className="btn btn-ghost"
+              onClick={() => setUnidadUnitId(null)}
+            >
+              ← Unidad Dipu
+            </button>
+            <article className="panel tema-article">
+              <span className="pill especifica">Material Dipu Alicante (actualizado)</span>
+              <h2>{activeUnidadUnit.title}</h2>
+              <p>{activeUnidadUnit.summary}</p>
+              <div className="updates-box">
+                <strong>Actualizaciones respecto al PDF original</strong>
+                <ul>
+                  {activeUnidadUnit.updates.map((u) => (
+                    <li key={u}>{u}</li>
+                  ))}
+                </ul>
+              </div>
+              {activeUnidadUnit.sections.map((sec) => (
+                <section key={sec.title} className="tema-section">
+                  <h3>{sec.title}</h3>
+                  {sec.body.map((p) => (
+                    <p key={p.slice(0, 48)}>{p}</p>
+                  ))}
+                </section>
+              ))}
+              <div className="row-actions sticky-actions">
+                <button type="button" className="btn btn-primary" onClick={() => startUnidadQuiz('full')}>
+                  Test del material Dipu ({getUnidadCalidadQuestions().length})
+                </button>
+                <button type="button" className="btn" onClick={() => startUnidadQuiz('quick')}>
+                  Repaso rápido (15)
+                </button>
+              </div>
+            </article>
+          </main>
       )}
 
       {view === 'simulacro' && (

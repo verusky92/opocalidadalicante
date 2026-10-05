@@ -1,0 +1,610 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
+<head><meta name="description" content="Detalle de novedades de empleo" /><link rel="stylesheet" type="text/css" href="css/ofvirtual.css" /><link rel="shortcut icon" href="css/img/favicon.ico" /><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="author" content="Diputacion de Alicante" lang="es" /><meta name="keywords" content="oficina virtual, diputacion alicante, bop, oposiciones, empleo, alicante, tablon oficial, licitaciones, convenios colectivos, edictos, bolsa trabajo,ayudas, subvenciones, inserciones boletin" /><title>
+	Detalle de novedades de empleo
+</title>
+
+<script type="text/javascript" src="js/firma.js" ></script>
+
+<script  type="text/javascript" >
+<!--
+function enviarEnlace(evento, clave)
+  {
+  var u = "default.aspx?evento="+ evento + "&amp;clave="+clave;
+  location.href(u);
+ }
+
+
+function enviar()
+{
+//     firmar();  // me da error
+}
+      
+var popUp; 
+function OpenCalendar(idname, postBack)
+{
+    popUp = window.open('popup_calendar/Calendar.aspx?formname=' + document.forms[0].name + 
+        '&id=' + idname + '&selected=' + document.forms[0].elements[idname].value + '&postBack=' + postBack, 
+        'popupcal', 
+        'width=165,height=208,left=200,top=250');
+}
+function SetDate(formName, id, newDate, postBack)
+{
+    eval('var theform = document.' + formName + ';');
+    popUp.close();
+    theform.elements[id].value = newDate;
+    if (postBack)
+        __doPostBack(id,'');
+}	
+-->	
+</script>
+<script type="text/javascript">
+<!--
+function activeFormaPago(obj )
+{
+
+    if (obj.value != 3)
+    {
+       document.getElementById("entrada_juridico_null_1").disabled = true;
+       document.getElementById("entrada_juridico_null_1").value = "";
+    }
+    else
+       document.getElementById("entrada_juridico_null_1").disabled = false;
+    
+}
+
+function activefunurg(obj )
+{
+   // alert(obj.value);
+    if (obj.value != 2)
+    {
+    
+       document.getElementById("entrada_funurg_null_1").disabled = true;
+       document.getElementById("entrada_funurg_null_1").value = "";
+    }
+    else
+       document.getElementById("entrada_funurg_null_1").disabled = false;
+    
+}
+
+    function statusRadio(obj)
+    {
+       var nodos = document.getElementsByTagName("fieldset");
+       for (var i = 0; i < nodos.length; i++)
+       {
+            if(nodos[i].getAttribute("soloagrupar")=="true")
+            continue;
+            var nodos1 = nodos[i].getElementsByTagName("input");
+            var setonoff = true;
+            for (var j = 0; j < nodos1.length; j++)
+            {
+               if (nodos1[j].getAttribute("control") == null)
+               {
+                if (setonoff == true) nodos1[j].value = "";
+                nodos1[j].disabled = setonoff;
+               }
+               else
+               {
+               //alert(nodos1[j].value)
+                if (nodos1[j].checked) 
+                    setonoff = false;
+                else
+                    setonoff = true;    
+                }    
+            }
+            var nodos1 = nodos[i].getElementsByTagName("select");
+            for (var j = 0; j < nodos1.length; j++)
+            {
+              if (setonoff == true) nodos1[j].value = "";
+                nodos1[j].disabled = setonoff;
+               
+            }
+           
+            var nodos1 = nodos[i].getElementsByTagName("a");
+            for (var j = 0; j < nodos1.length; j++)
+            {
+          
+                if(setonoff==true)
+                {
+                    nodos1[j].setAttribute("href1", nodos1[j].href);
+                    nodos1[j].removeAttribute("href");
+                }
+                else if(nodos1[j].getAttribute("href")==null || nodos1[j].getAttribute("href")=="")
+                {
+                 nodos1[j].setAttribute("href", nodos1[j].getAttribute("href1"));
+                }
+               
+            }
+       }  
+      
+    }
+    function _valores(valor, tipo, ascdes)
+    {
+    this.valor  = valor;
+    this.tipo   = tipo;
+    this.ascdes = ascdes;
+    }
+    function _o(id, orden)
+    {
+     this.id = id;
+     this.orden = orden;
+     this.datos = new Array();
+    }
+    
+    function _s(a, b)
+    {
+       for (var i = 0; i  < a.datos.length; i++)
+       {
+         var ascdes = 1;
+         if (a.datos[i].ascdes  == "DES")
+                ascdes = -1;
+         var v1;
+         var v2;
+         
+         if (a.datos[i].tipo == 'N')
+         {
+            v1 = parseInt(a.datos[i].valor)
+            v2 = parseInt(b.datos[i].valor)
+         }
+         else if (a.datos[i].tipo == 'M')
+         {
+           v1 = parseFloat(a.datos[i].valor)
+            v2 = parseFloat(b.datos[i].valor)
+            
+            
+         }
+         else if (a.datos[i].tipo == 'F')
+         {
+            v1 = Date.parse(a.datos[i].valor)
+            v2 = Date.parse(b.datos[i].valor)
+         }
+         
+         else
+         {
+            v1 = a.datos[i].valor
+            v2 = b.datos[i].valor
+       
+         }        
+                
+          if (v1 < v2)
+             return a.orden * 1 * ascdes;
+          else
+             if (v1 == v2)
+                 ;
+                 else
+                   return a.orden * -1 * ascdes;   
+       }
+       return 0;
+    }
+
+    function ordenar(modo,  tabla, orden)
+    {
+       var a = new Array();
+       var t = document.getElementById(tabla);
+       var nodos = t.getElementsByTagName("tr");
+     
+       for (var i = 1; i < nodos.length; i++)
+       { 
+         
+         var tmp = nodos[i].getAttribute("id");
+         
+         if ( tmp == "")
+            continue;
+         a[i] = new _o(nodos[i].getAttribute("id"), modo)
+         
+         
+         var col = nodos[i].getElementsByTagName("td")
+         
+         
+         var cols = orden.split('|')
+         for (var j = 0; j < cols.length; j++)
+         {
+            campos = cols[j].split(":");
+            var cadena = "";
+            if(document.all)
+            {
+                cadena = col[campos[0]].innerText;
+            } 
+            else
+            {
+                cadena = col[campos[0]].textContent;
+            }
+            a[i].datos[j] = new _valores(cadena, campos[1],campos[2]);
+         }
+       }
+
+       var salida = a.sort(_s)
+       var t = nodos[1];
+       for (var i  = 0; i < salida.length - 1; i++)
+       {
+           
+           var t1 = document.getElementById(salida[i].id);
+           t1.className = "tr" + i % 2;
+          
+           t.parentNode.insertBefore(t1, t.nextSibling);
+           t = t1;
+       }
+    }
+    function ordenar1(modo,  tabla, orden,d)
+    {
+       var a = new Array();
+
+    //  var dd=window.event.srcElement;
+        if(document.all)
+	   {
+	    dd=window.event.srcElement.parentNode;
+	   
+	    }
+	    else
+	    {
+	    dd=d.parentNode;
+      // alert(dd.innerHTML);
+       }
+      //alert(orden);
+    var nuevoM=(-1)*modo;
+ if(dd!=null);
+      dd.innerHTML="<img  onclick=\"javascript:ordenar1("+nuevoM+",'" + tabla + "','" + orden + "',this)\" alt='"+d.getAttribute("alt1")+"' alt1='"+d.getAttribute("alt")+"' title='"+d.getAttribute("alt1")+"' src='images/ov/"+nuevoM+".gif' id=\"imgl\"/>";
+   
+    
+       var t = document.getElementById(tabla);
+       var nodos = t.getElementsByTagName("tr");
+       for (var i = 1; i < nodos.length; i++)
+       { 
+         
+         var tmp = nodos[i].getAttribute("id");
+         
+         if ( tmp == "")
+            continue;
+         a[i] = new _o(nodos[i].getAttribute("id"), modo)
+         
+         
+         var col = nodos[i].getElementsByTagName("td")
+         
+         
+         var cols = orden.split('|')
+         for (var j = 0; j < cols.length; j++)
+         {
+            campos = cols[j].split(":");
+            var cadena = "";
+            if(document.all)
+            {
+                cadena = col[campos[0]].innerText;
+            } 
+            else
+            {
+                if(campos[0]!=null && col[campos[0]]!=null)
+                {
+                cadena = col[campos[0]].textContent;
+           // alert(cadena);
+            }
+            }
+           
+            a[i].datos[j] = new _valores(cadena, campos[1],campos[2]);
+         }
+       }
+
+       var salida = a.sort(_s)
+       var t = nodos[1];
+       for (var i  = 0; i < salida.length - 1; i++)
+       {
+           
+           var t1 = document.getElementById(salida[i].id);
+           t1.className = "tr" + i % 2;
+          
+           t.parentNode.insertBefore(t1, t.nextSibling);
+           t = t1;
+       }
+    }
+    -->
+</script>
+<script type="text/javascript">
+<!--
+function OnOk(result, p)
+{
+    var p1 = p.split('|');
+    
+    PopulateList(p1[0], p1[1] , result);
+}
+function OnKo(result)
+{ 
+   // alert("Error: " + result.get_message());
+}
+function PopulateList(lista, valor, result)
+{
+   //alert(":"+valor+":")
+    var v1 = document.getElementById(lista);
+    // clear select 
+    v1.options.length=0
+    // populate
+    var v = result.split("|");
+    // opcion para el nulo
+    
+    //v1.options[0] = new Option("Seleccione ..", "", true, false);
+    for (i = 0; i < v.length; i++)
+    {
+        var cv = v[i].split("%");
+        var sel = false;
+        if (valor == cv[1])
+           sel = true;
+        v1.options[i] = new Option(cv[0], cv[1], false, sel);
+    }
+    
+    v1.disabled = false;
+}
+
+function ActualizaListas(listas, valor)
+{
+  
+    var v1 = document.getElementById(listas);
+    v1.setAttribute("valor", "");
+    fillLista(listas,"onchange");
+    var lista = v1.getAttribute("lista");
+    //alert(lista);
+    if (lista != null)
+    {
+        var ld = document.getElementById(lista);
+        ld.options.length = 1;
+        ld.disabled =true;
+    }
+}
+function CambioDeLista(xml, parentLista, lista, valor,inicio)
+{
+  var lang= document.getElementById("DropDownList1").value;
+ 
+    if (parentLista == null)
+    {      
+           // alert(":"+xml+":")
+            S1.GetLista(lang+"?"+xml , OnOk ,OnKo, lista +"|"+ valor,lang)
+    }        
+    else
+    {
+         var valorparent = "";
+         // elemento padre  
+         var v1      = document.getElementById(parentLista);
+         // valor inicial
+         var v       = v1.getAttribute("valor");
+         if (inicio == "inicio") 
+            valorparent = v
+         else 
+         {
+            valorparent = v1.value;
+         }
+         xml += valorparent;
+         //alert(":"+xml+":")
+         S1.GetLista(lang+"?"+xml , OnOk ,OnKo, lista +"|"+ valor,lang)
+     }   
+}
+function fillLista(lista,inicio)
+{
+   var v1             = document.getElementById(lista);
+   var valor          = v1.getAttribute("valor")
+   var url            = v1.getAttribute("url")
+   var parentLista    = v1.getAttribute("parentLista")
+   CambioDeLista(url, parentLista, lista ,valor,inicio);
+}
+function pageLoad()
+{
+   var form1=document.getElementById("form1");
+  
+   
+   var nodoslistas  = form1.getElementsByTagName("select");
+   for (var i = 0; i < nodoslistas.length; i++)
+   {
+      var compo = nodoslistas[i].getAttribute("id").split("_");
+      if (compo.length == 4)
+      {
+        fillLista(nodoslistas[i].getAttribute("id"),"inicio");
+      }
+   }
+   
+  setTimeout("otros()",3000);
+}
+function otros()
+{
+   if ( document.getElementsByTagName("fieldset").length > 0)
+   {
+   
+        statusRadio(null);
+   }
+   
+ 
+-->
+}
+</script>
+
+   
+</head>
+
+<body>
+<noscript>
+Su Navegador no soporta algunas de las funciones.
+</noscript>
+<form name="form1" method="post" action="default.aspx?idsesion=&amp;evento=execevento&amp;nemot=EMP_OPOSIC_DET&amp;idioma=es&amp;contextomenu=mnuGuest%7c20%7csmnuEmpleo%7c31&amp;opcionmenu=0&amp;idCookie=&amp;key=3%7c7131" id="form1">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUIOTA1MzYxNjRkZOHkBw8EM7v567P+nVQ21GhGrobb" />
+
+
+<script src="/ScriptResource.axd?d=Im8RdkObsMuGgxKjIntBL_uU-xW-IzXqj88vI3RlBX7vGP7e-qdEw-9KDyBJkd4Evkm2p2p78K9WA-CyG8W8t804Z2FnpBnjSf2Euw3-vv41&amp;t=633564791551995298" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+var S1=function() {
+S1.initializeBase(this);
+this._timeout = 0;
+this._userContext = null;
+this._succeeded = null;
+this._failed = null;
+}
+S1.prototype={
+HelloWorld:function(succeededCallback, failedCallback, userContext) {
+return this._invoke(S1.get_path(), 'HelloWorld',false,{},succeededCallback,failedCallback,userContext); },
+Eco:function(cadena,succeededCallback, failedCallback, userContext) {
+return this._invoke(S1.get_path(), 'Eco',false,{cadena:cadena},succeededCallback,failedCallback,userContext); },
+Lista:function(nombre,succeededCallback, failedCallback, userContext) {
+return this._invoke(S1.get_path(), 'Lista',false,{nombre:nombre},succeededCallback,failedCallback,userContext); },
+GetLista:function(nombre,succeededCallback, failedCallback, userContext) {
+return this._invoke(S1.get_path(), 'GetLista',false,{nombre:nombre},succeededCallback,failedCallback,userContext); }}
+S1.registerClass('S1',Sys.Net.WebServiceProxy);
+S1._staticInstance = new S1();
+S1.set_path = function(value) { 
+var e = Function._validateParams(arguments, [{name: 'path', type: String}]); if (e) throw e; S1._staticInstance._path = value; }
+S1.get_path = function() { return S1._staticInstance._path; }
+S1.set_timeout = function(value) { var e = Function._validateParams(arguments, [{name: 'timeout', type: Number}]); if (e) throw e; if (value < 0) { throw Error.argumentOutOfRange('value', value, Sys.Res.invalidTimeout); }
+S1._staticInstance._timeout = value; }
+S1.get_timeout = function() { 
+return S1._staticInstance._timeout; }
+S1.set_defaultUserContext = function(value) { 
+S1._staticInstance._userContext = value; }
+S1.get_defaultUserContext = function() { 
+return S1._staticInstance._userContext; }
+S1.set_defaultSucceededCallback = function(value) { 
+var e = Function._validateParams(arguments, [{name: 'defaultSucceededCallback', type: Function}]); if (e) throw e; S1._staticInstance._succeeded = value; }
+S1.get_defaultSucceededCallback = function() { 
+return S1._staticInstance._succeeded; }
+S1.set_defaultFailedCallback = function(value) { 
+var e = Function._validateParams(arguments, [{name: 'defaultFailedCallback', type: Function}]); if (e) throw e; S1._staticInstance._failed = value; }
+S1.get_defaultFailedCallback = function() { 
+return S1._staticInstance._failed; }
+S1.set_path("/S1.asmx");
+S1.HelloWorld= function(onSuccess,onFailed,userContext) {S1._staticInstance.HelloWorld(onSuccess,onFailed,userContext); }
+S1.Eco= function(cadena,onSuccess,onFailed,userContext) {S1._staticInstance.Eco(cadena,onSuccess,onFailed,userContext); }
+S1.Lista= function(nombre,onSuccess,onFailed,userContext) {S1._staticInstance.Lista(nombre,onSuccess,onFailed,userContext); }
+S1.GetLista= function(nombre,onSuccess,onFailed,userContext) {S1._staticInstance.GetLista(nombre,onSuccess,onFailed,userContext); }
+//]]>
+</script>
+
+<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWCgLTsMOxCQKmi9GKBgLXi6mKBgKQi7vYDQKUtPekBQLkm+CECgLdqrcDApby8ZoKArv8xp8HAq+IyLAHyGyWNPdKIagSnjNWP4e5ek0Epj0=" />
+<div class="cuadro1_Externo"><strong class="cuadro1_1"></strong><strong class="cuadro1_2"></strong><strong class="cuadro1_3"></strong><strong class="cuadro1_4"></strong>
+<div id="cuadro1">  
+    <div id="escudo" >
+    <div  class="imgiz">
+		<a href="http://www.ladipu.com"><img src="css/img/escudo.gif" alt="Diputacion de Alicante" title="Diputacion de Alicante" /></a>
+	
+	 
+	</div>	
+				<h1>Oficina Virtual Diputaci&oacute;n de Alicante</h1>	
+				<div class="flota">
+				 <select name="DropDownList1" id="DropDownList1">
+	<option selected="selected" value="es">Bienvenido</option>
+	<option value="va">Benvingut</option>
+
+</select>
+				</div>	
+				<h2>
+                  
+					<span id="nif"></span><span id="identidades"></span>
+    			</h2>
+    			
+    </div>
+    
+     <div id="navegador">
+	
+     <ul id="navlist" title="Menu Principal"><li><a href="Default.aspx?menu=yes&amp;idsesion=1018460991&amp;nemot=mnuGuest&amp;idioma=es&amp;contextomenu=mnuGuest|20|smnuEmpleo|31&amp;opcionmenu=18
+">BOP
+</a></li><li><a href="Default.aspx?menu=yes&amp;idsesion=1018460991&amp;nemot=mnuGuest&amp;idioma=es&amp;contextomenu=mnuGuest|20|smnuEmpleo|31&amp;opcionmenu=19
+">Perfil de Contratante
+</a></li><li class="active"><a href="Default.aspx?menu=yes&amp;idsesion=1018460991&amp;nemot=mnuGuest&amp;idioma=es&amp;contextomenu=mnuGuest|20|smnuEmpleo|31&amp;opcionmenu=20
+">Empleo
+</a></li><li><a href="Default.aspx?menu=yes&amp;idsesion=1018460991&amp;nemot=mnuGuest&amp;idioma=es&amp;contextomenu=mnuGuest|20|smnuEmpleo|31&amp;opcionmenu=21
+">Ayudas
+</a></li><li><a href="Default.aspx?menu=yes&amp;idsesion=1018460991&amp;nemot=mnuGuest&amp;idioma=es&amp;contextomenu=mnuGuest|20|smnuEmpleo|31&amp;opcionmenu=22
+">Tabl&#243;n Oficial
+</a></li><li><a href="Default.aspx?menu=yes&amp;idsesion=1018460991&amp;nemot=mnuGuest&amp;idioma=es&amp;contextomenu=mnuGuest|20|smnuEmpleo|31&amp;opcionmenu=123
+">Planes de Obras y Servicios
+</a></li></ul>
+</div>
+   <div class="cuadro2_Externo"><strong class="cuadro2_1"></strong><strong class="cuadro2_2"></strong><strong class="cuadro2_3"></strong><strong class="cuadro2_4"></strong>
+     <div id="cuadro2" >
+	      <div id="menu1-content">
+                <div id="blSubmenu">
+	<ul id="submenu" title="Menu Secundario"><li class="active"><a href="Default.aspx?menu=yes&amp;idsesion=1018460991&amp;nemot=smnuEmpleo&amp;idioma=es&amp;contextomenu=mnuGuest|20|smnuEmpleo|31&amp;opcionmenu=31
+">Novedades
+</a></li><li><a href="Default.aspx?menu=yes&amp;idsesion=1018460991&amp;nemot=smnuEmpleo&amp;idioma=es&amp;contextomenu=mnuGuest|20|smnuEmpleo|31&amp;opcionmenu=32
+">Bolsa
+</a></li><li><a href="Default.aspx?menu=yes&amp;idsesion=1018460991&amp;nemot=smnuEmpleo&amp;idioma=es&amp;contextomenu=mnuGuest|20|smnuEmpleo|31&amp;opcionmenu=33
+">Oferta
+</a></li><li><a href="Default.aspx?menu=yes&amp;idsesion=1018460991&amp;nemot=smnuEmpleo&amp;idioma=es&amp;contextomenu=mnuGuest|20|smnuEmpleo|31&amp;opcionmenu=34
+">Oposiciones
+</a></li><li><a href="Default.aspx?menu=yes&amp;idsesion=1018460991&amp;nemot=smnuEmpleo&amp;idioma=es&amp;contextomenu=mnuGuest|20|smnuEmpleo|31&amp;opcionmenu=92
+">Bases Anteriores
+</a></li><li><a href="Default.aspx?menu=yes&amp;idsesion=1018460991&amp;nemot=smnuEmpleo&amp;idioma=es&amp;contextomenu=mnuGuest|20|smnuEmpleo|31&amp;opcionmenu=35
+">Suscripciones
+</a></li></ul>
+</div>
+               
+                 
+	             <div class="cuadro3_Externo"><strong class="cuadro3_1"></strong><strong class="cuadro3_2"></strong><strong class="cuadro3_3"></strong><strong class="cuadro3_4"></strong>
+	                <div id="cuadro3">
+	<h3>Detalle de novedades de empleo</h3><div class="salida_Externo">
+		<strong class="salida_1"></strong><strong class="salida_2"></strong><strong class="salida_3"></strong><strong class="salida_4"></strong><div id="salida">
+			<table summary="EMPLEO. Oposiciones - Otras Entidades Locales" id="oposicion3O"><caption>EMPLEO. Oposiciones - Otras Entidades Locales</caption><thead><tr class="th"><th id="columna_plaza_1">Plaza</th><th id="columna_localidad_2" abbr="Localidad/Entid">Localidad/Entidad</th><th id="columna_nivel_3">Nivel Estudios</th><th id="columna_vacante_4">Vacantes</th><th id="columna_fecha_5">Bases</th><th id="columna_inicio_6">F.Inicio</th><th id="columna_final_7">F.Final</th><th id="columna_observ_8">Obs.</th></tr></thead><tbody><tr id="f1" class="tr0"><td headers="columna_plaza_1">Limpiador/a SAD
+</td><td headers="columna_localidad_1">Rafal-Ayuntamiento
+</td><td headers="columna_nivel_1">E -Agrupaciones Profesionales
+</td><td headers="columna_vacante_1">1
+</td><td headers="columna_fecha_1"><a href="http://www.dip-alicante.es/bop2/pdftotal/2009/08/26-08-09.pdf#page=64
+" target="_blank">26/08/2009
+</a></td><td headers="columna_inicio_1">06/10/2009
+</td><td headers="columna_final_1">26/10/2009
+</td><td headers="columna_observ_1">&nbsp;</td></tr></tbody></table>
+		</div><strong class="salida_4b"></strong><strong class="salida_3b"></strong><strong class="salida_2b"></strong><strong class="salida_1b"></strong>
+	</div><div>
+		<input type="hidden" name="idsesion" id="idsesion" value="1018460991" /><input type="hidden" name="contextomenu" id="contextomenu" value="mnuGuest|20|smnuEmpleo|31" /><input type="hidden" name="opcionmenu" id="opcionmenu" value="0" />
+	</div><div>
+		<input type="hidden" name="nemot" id="nemot" /><input type="hidden" name="evento" id="evento" /><input type="hidden" name="cookie" id="cookie" /><input type="hidden" name="idioma" id="idioma" value="es" />
+	</div>
+</div>
+	   	            <strong class="cuadro3_4b"></strong><strong class="cuadro3_3b"></strong><strong class="cuadro3_2b"></strong><strong class="cuadro3_1b"></strong>
+</div>  
+	   	            
+	   	          
+	   	      
+	  	   </div>
+	  </div>
+	  <strong class="cuadro2_4b"></strong><strong class="cuadro2_3b"></strong><strong class="cuadro2_2b"></strong><strong class="cuadro2_1b"></strong>
+</div>  
+	  	 <div id="pie" class="clearfix">
+	   <div  class="imgiz">
+	  	 <a href="http://jigsaw.w3.org/css-validator/" target="_blank" ><img   height="32" width="88" src="css/img/vcss.png" alt="CSS válido"   /></a>
+
+ <a href="http://www.w3.org/WAI/WCAG1AA-Conformance" target="_blank" title="Nivel Doble-A de Conformidad">
+
+<img height="32" width="88" src="css/img/wcag1AA.png" alt="Icono de conformidad con el Nivel Doble-A, de las Directrices de Accesibilidad para el  Contenido Web 1.0 del W3C-WAI"   /></a>          
+</div>
+ 	 
+	  	 <ul id="menu1_pie"><li class="active"><a href="Default.aspx?menu=yes&amp;idsesion=1018460991&amp;nemot=smnuEmpleo&amp;idioma=es&amp;contextomenu=mnuGuest|20|smnuEmpleo|31&amp;opcionmenu=31
+">Novedades
+ | </a></li><li><a href="Default.aspx?menu=yes&amp;idsesion=1018460991&amp;nemot=smnuEmpleo&amp;idioma=es&amp;contextomenu=mnuGuest|20|smnuEmpleo|31&amp;opcionmenu=32
+">Bolsa
+ | </a></li><li><a href="Default.aspx?menu=yes&amp;idsesion=1018460991&amp;nemot=smnuEmpleo&amp;idioma=es&amp;contextomenu=mnuGuest|20|smnuEmpleo|31&amp;opcionmenu=33
+">Oferta
+ | </a></li><li><a href="Default.aspx?menu=yes&amp;idsesion=1018460991&amp;nemot=smnuEmpleo&amp;idioma=es&amp;contextomenu=mnuGuest|20|smnuEmpleo|31&amp;opcionmenu=34
+">Oposiciones
+ | </a></li><li><a href="Default.aspx?menu=yes&amp;idsesion=1018460991&amp;nemot=smnuEmpleo&amp;idioma=es&amp;contextomenu=mnuGuest|20|smnuEmpleo|31&amp;opcionmenu=92
+">Bases Anteriores
+ | </a></li><li><a href="Default.aspx?menu=yes&amp;idsesion=1018460991&amp;nemot=smnuEmpleo&amp;idioma=es&amp;contextomenu=mnuGuest|20|smnuEmpleo|31&amp;opcionmenu=35
+">Suscripciones
+</a></li></ul><a href="http://www.ladipu.com" target="blank">&copy; Excma. Diputación Provincial de Alicante</a></div>
+  </div>
+  <strong class="cuadro1_4b"></strong><strong class="cuadro1_3b"></strong><strong class="cuadro1_2b"></strong><strong class="cuadro1_1b"></strong>
+</div>  
+ 
+ <div class="clear">&nbsp;</div>
+
+
+<script type="text/javascript">
+//<![CDATA[
+Sys.Application.initialize();
+//]]>
+</script>
+</form>
+
+<script type="text/javascript" src="js/valida.js" ></script>
+<div id="codigo">
+
+</div>
+ 
+
+    
+</body>
+
+</html>

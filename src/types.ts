@@ -8,6 +8,7 @@ export type View =
   | 'fallos'
   | 'casos'
   | 'metodo'
+  | 'unidad-dipu'
 
 export interface TemaSection {
   title: string
